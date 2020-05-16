@@ -14,6 +14,7 @@
   "browserslist": "> 0.25%, not dead",
   "dependencies": {
     "@babel/polyfill": "^7.8.7",
+    "normalize.css": "^8.0.1",
     "webpack-dev-server": "^3.11.0"
   },
   "devDependencies": {
