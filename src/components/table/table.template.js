@@ -7,23 +7,29 @@ const toChar = (_, i) => {
   return String.fromCharCode(CODES.A + i);
 };
 
-const createRow = (content, num) => {
+const createRow = (content, i) => {
+  const resize = i ? "<div class='row-resize' data-resize='row'></div>" : "";
   return `
-  <div class='row'>
-    <div class='row-info'>${num ? num : ""}</div>
+  <div class='row' data-type="resizable">
+    <div class='row-info'>${i ? i : ""}
+      ${resize}
+    </div>
     <div class='row-data'>${content}</div>
   </div>`;
 };
 
-const toColumn = (col) => {
+const toColumn = (col, i) => {
   return ` 
-  <div class="column">${col}</div>`;
+  <div class="column" data-type="resizable" data-col="${i}">${col}
+    <div class="col-resize" data-resize='col'></div>
+  </div>
+  `;
 };
 
-const toCell = () => {
+const toCell = (_, col) => {
   return `
- <div class="cell" contenteditable></div>
- `;
+  <div class="cell" contenteditable data-col="${col}"></div>
+  `;
 };
 
 export function createTable(rowsCount = 20) {
