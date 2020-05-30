@@ -26,10 +26,24 @@ const toColumn = (col, i) => {
   `;
 };
 
-const toCell = (_, col) => {
-  return `
-  <div class="cell" contenteditable data-col="${col}"></div>
-  `;
+// const toCell = (row, col) => {
+//   return `
+//  <div class="cell" contenteditable data-col="${col}" data-row="${row}"></div>
+//   `;
+// };
+
+const toCell = (row) => {
+  return function(_, col) {
+    return `
+      <div 
+        class="cell" 
+        contenteditable 
+        data-col="${col}" 
+        data-row="${row}"
+        data-id="${row}:${col}"
+      ></div>
+    `;
+  };
 };
 
 export function createTable(rowsCount = 20) {
@@ -40,10 +54,14 @@ export function createTable(rowsCount = 20) {
 
   rows.push(createRow(cols));
 
-  for (let i = 0; i < rowsCount; i++) {
-    const cells = new Array(colsCount).fill("").map(toCell).join("");
+  for (let row = 0; row < rowsCount; row++) {
+    const cells = new Array(colsCount)
+      .fill("")
+      // .map((_, col) => toCell(row, col))
+      .map(toCell(row))
+      .join("");
 
-    rows.push(createRow(cells, i + 1));
+    rows.push(createRow(cells, row + 1));
   }
 
   return rows.join("");
