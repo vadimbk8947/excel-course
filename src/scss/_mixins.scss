@@ -1,6 +1,8 @@
 @mixin button($color: green) {
-  height: 27px;
+  height: 24px;
   min-width: 24px;
+  margin: 0 1px;
+  border-radius: 3px;
   padding: 2px;
   text-align: center;
   position: relative;
@@ -14,10 +16,11 @@
   &:active,
   &.active {
     color: $color;
+    background-color: #eee;
   }
 
   &:hover {
-    background: #eee;
+    // background: #eee;
     cursor: pointer;
   }
 }
