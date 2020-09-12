@@ -3,6 +3,7 @@ import { changeTitle } from "../../redux/actions";
 import { $ } from "../../core/dom";
 import { defaultTitle } from "../../constants";
 import { debounce } from "../../core/utils";
+import { ActiveRoute } from "../../core/routes/ActiveRoute";
 
 export class Header extends ExcelComponent {
   static className = "excel__header";
@@ -10,7 +11,7 @@ export class Header extends ExcelComponent {
   constructor($root, options) {
     super($root, {
       name: "Header",
-      listeners: ["input"],
+      listeners: ["input", "click"],
       ...options,
     });
   }
@@ -21,25 +22,42 @@ export class Header extends ExcelComponent {
 
   toHTML() {
     const title = this.store.getState().title || defaultTitle;
-    return `<input class="input" type="text" value="${title}" />
+    return `
+      <input class="input" type="text" value="${title}" />
 
-    <div>
-      <div class="button">
-        <span class="material-icons">
-          delete
-        </span>
-      </div>
+      <div>
+        <div class="button" data-button="remove">
+          <span class="material-icons" data-button="remove">
+            delete
+          </span>
+        </div>
 
-      <div class="button">
-        <span class="material-icons">
-          exit_to_app
-        </span>
+        <div class="button" data-button="exit">
+          <span class="material-icons" data-button="exit">
+            exit_to_app
+          </span>
+        </div>
       </div>
-    </div>`;
+      `;
   }
 
   onInput(e) {
     const $target = $(e.target);
     this.$dispatch(changeTitle($target.text()));
+  }
+
+  onClick(e) {
+    const $target = $(e.target);
+
+    if ($target.data.button === "remove") {
+      const decision = confirm("Are you sure?");
+
+      if (decision) {
+        localStorage.removeItem("excel:" + ActiveRoute.param);
+        ActiveRoute.navigate("");
+      }
+    } else if ($target.data.button === "exit") {
+      ActiveRoute.navigate("");
+    }
   }
 }
