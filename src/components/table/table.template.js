@@ -64,9 +64,9 @@ const toCell = (state, row) => {
         data-col="${col}" 
         data-row="${row}"
         data-id="${id}"
-        data-value="${data ?? ""}"
+        data-value="${data || ""}"
         style="${styles}; width:${width}"
-      >${parse(data ?? "")}</div>
+      >${parse(data || "")}</div>
     `;
   };
 };
