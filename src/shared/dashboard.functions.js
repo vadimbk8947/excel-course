@@ -6,7 +6,7 @@ const toHtml = (key) => {
   const id = key.split(":")[1];
   return `
     <li class="db__record">
-      <a href="#excel/${id}">${item.title ?? defaultTitle}</a>
+      <a href="#excel/${id}">${item.title || defaultTitle}</a>
       <strong>${new Date(item.openedDate).toLocaleString()}</strong>
     </li>
   `;
